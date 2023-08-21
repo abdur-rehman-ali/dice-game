@@ -1,11 +1,11 @@
-import './App.css'
+import Hero from "./pages/Hero/Hero";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
-  )
+    <div className="container mx-auto">
+      <Hero />
+    </div>
+  );
 }
 
-export default App
+export default App;
