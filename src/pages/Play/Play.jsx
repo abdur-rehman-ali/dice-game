@@ -3,27 +3,14 @@ import { useState } from "react";
 import dice1 from "../../assets/dice_1.png";
 
 const Play = () => {
-  const [activeButtons, setActiveButtons] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const initialButtonsState = [false, false, false, false, false, false];
+  const [activeButtons, setActiveButtons] = useState(initialButtonsState);
   const [rulesSection, setRulesSection] = useState(true);
   const [message, setMessage] = useState("");
 
   const toggleActiveButtons = (index) => {
     setActiveButtons(() => {
-      const updatedProviousActiveButtons = [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ];
+      const updatedProviousActiveButtons = [...initialButtonsState];
       updatedProviousActiveButtons[index] = true;
       return updatedProviousActiveButtons;
     });
@@ -85,7 +72,7 @@ const Play = () => {
             className="border-2 border-black bg-black text-white rounded-md w-40 py-1 my-1 block"
             onClick={() => setRulesSection(!rulesSection)}
           >
-            Show rules
+            {rulesSection ? "Hide Rules" : "Show Rules"}
           </button>
         </div>
         <div
