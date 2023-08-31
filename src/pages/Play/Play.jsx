@@ -1,12 +1,28 @@
 import { useState } from "react";
 
 import dice1 from "../../assets/dice_1.png";
+import dice2 from "../../assets/dice_2.png";
+import dice3 from "../../assets/dice_3.png";
+import dice4 from "../../assets/dice_4.png";
+import dice5 from "../../assets/dice_5.png";
+import dice6 from "../../assets/dice_6.png";
 
 const Play = () => {
   const initialButtonsState = [false, false, false, false, false, false];
   const [activeButtons, setActiveButtons] = useState(initialButtonsState);
   const [rulesSection, setRulesSection] = useState(true);
   const [message, setMessage] = useState("");
+  const [score, setScore] = useState(0);
+  const [selectedNumber, setSelectedNumber] = useState(1);
+  const [diceValue, setDiceValue] = useState(3);
+  const initalDiceImageState = {
+    1: dice1,
+    2: dice2,
+    3: dice3,
+    4: dice4,
+    5: dice5,
+    6: dice6,
+  };
 
   const toggleActiveButtons = (index) => {
     setActiveButtons(() => {
@@ -14,6 +30,8 @@ const Play = () => {
       updatedProviousActiveButtons[index] = true;
       return updatedProviousActiveButtons;
     });
+    setMessage("");
+    setSelectedNumber(index + 1);
   };
 
   const randomIntFromInterval = (min, max) => {
@@ -29,14 +47,19 @@ const Play = () => {
       return;
     }
     const rndInt = randomIntFromInterval(1, 6);
-    console.log(rndInt);
+    setDiceValue(rndInt);
+    if (rndInt === selectedNumber) {
+      setScore((previouseScore) => previouseScore + rndInt);
+    } else {
+      setScore((previouseScore) => previouseScore - 2);
+    }
   };
 
   return (
     <div className="container mx-auto ">
       <div className="flex justify-between items-center">
         <div className="flex flex-col items-center">
-          <h1 className="font-medium text-8xl">0</h1>
+          <h1 className="font-medium text-8xl">{score}</h1>
           <h1 className="font-medium text-2xl">Total Score</h1>
         </div>
         <div className="flex flex-col items-end justify-between">
@@ -62,10 +85,13 @@ const Play = () => {
       <div className="py-12 flex flex-col items-center justify-center">
         <div>
           <button className="w-40" onClick={() => roleTheDice()}>
-            <img src={dice1} alt="Image here" />
+            <img src={initalDiceImageState[diceValue]} alt="Image here" />
           </button>
           <h1 className="font-medium text-lg my-4">Click on dice to roll</h1>
-          <button className="border-2 border-black rounded-md w-40 py-1 my-1 block">
+          <button
+            className="border-2 border-black rounded-md w-40 py-1 my-1 block"
+            onClick={() => setScore(0)}
+          >
             Reset Score
           </button>
           <button
